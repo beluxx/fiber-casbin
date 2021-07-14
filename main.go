@@ -131,10 +131,16 @@ type Options struct {
 	PermissionParser PermissionParserFunc
 }
 
+func (cm CasbinMiddleware) loadPolicyBeforeEnfore() {
+	if err := cm.config.Enforcer.LoadPolicy(); err != nil {
+		panic(err)
+	}
+}
+
 // RequiresPermissions tries to find the current subject and determine if the
 // subject has the required permissions according to predefined Casbin policies.
 func (cm *CasbinMiddleware) RequiresPermissions(permissions []string, opts ...func(o *Options)) fiber.Handler {
-
+	cm.loadPolicyBeforeEnfore()
 	options := &Options{
 		ValidationRule:   matchAll,
 		PermissionParser: permissionParserWithSeperator(":"),
@@ -185,6 +191,7 @@ func (cm *CasbinMiddleware) RequiresPermissions(permissions []string, opts ...fu
 // This method uses http Path and Method as object and action.
 func (cm *CasbinMiddleware) RoutePermission() fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		cm.loadPolicyBeforeEnfore()
 		sub := cm.config.Lookup(c)
 		if len(sub) == 0 {
 			return cm.config.Unauthorized(c)
@@ -203,6 +210,7 @@ func (cm *CasbinMiddleware) RoutePermission() fiber.Handler {
 // RequiresRoles tries to find the current subject and determine if the
 // subject has the required roles according to predefined Casbin policies.
 func (cm *CasbinMiddleware) RequiresRoles(roles []string, opts ...func(o *Options)) fiber.Handler {
+	cm.loadPolicyBeforeEnfore()
 	options := &Options{
 		ValidationRule:   matchAll,
 		PermissionParser: permissionParserWithSeperator(":"),
