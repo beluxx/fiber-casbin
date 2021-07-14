@@ -36,6 +36,9 @@ type Config struct {
 	// Forbidden defines the response body for forbidden responses.
 	// Optional. Default: func(c *fiber.Ctx) error { return c.SendStatus(403) }
 	Forbidden fiber.Handler
+
+	// FilterRoute defines what route to skip. it only work for RoutePermission
+	FilterRoute func(*fiber.Ctx) bool
 }
 
 // CasbinMiddleware ...
@@ -191,6 +194,9 @@ func (cm *CasbinMiddleware) RequiresPermissions(permissions []string, opts ...fu
 // This method uses http Path and Method as object and action.
 func (cm *CasbinMiddleware) RoutePermission() fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		if cm.config.FilterRoute(c) {
+			return c.Next()
+		}
 		cm.loadPolicyBeforeEnfore()
 		sub := cm.config.Lookup(c)
 		if len(sub) == 0 {

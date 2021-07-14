@@ -4,7 +4,7 @@ Casbin middleware for Fiber
 ### Install
 ```
 go get -u github.com/gofiber/fiber/v2
-go get -u github.com/arsmn/fiber-casbin/v2
+go get -u github.com/beluxx/fiber-casbin/v3
 ```
 choose an adapter from [here](https://casbin.org/docs/en/adapters)
 ```
@@ -37,7 +37,7 @@ package main
 
 import (
   "github.com/gofiber/fiber/v2"
-  "github.com/arsmn/fiber-casbin/v2"
+  "github.com/beluxx/fiber-casbin/v3"
   _ "github.com/go-sql-driver/mysql"
   "github.com/casbin/xorm-adapter/v2"
 )
@@ -78,7 +78,7 @@ package main
 
 import (
   "github.com/gofiber/fiber/v2"
-  "github.com/arsmn/fiber-casbin/v2"
+  "github.com/beluxx/fiber-casbin/v3"
   _ "github.com/go-sql-driver/mysql"
   "github.com/casbin/xorm-adapter/v2"
 )
@@ -113,7 +113,7 @@ package main
 
 import (
   "github.com/gofiber/fiber/v2"
-  "github.com/arsmn/fiber-casbin/v2"
+  "github.com/beluxx/fiber-casbin/v3"
   _ "github.com/go-sql-driver/mysql"
   "github.com/casbin/xorm-adapter/v2"
 )
