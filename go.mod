@@ -1,4 +1,4 @@
-module github.com/beluxx/fiber-casbin/v2
+module github.com/beluxx/fiber-casbin/v3
 
 go 1.14
 
